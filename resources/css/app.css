@@ -1,0 +1,91 @@
+/*
+ * TESTS, vai Vite ielādē CSS:
+ * noņemiet komentāru no nākamā noteikuma — visam tekstam jākļūst sarkanam.
+ * Pēc pārbaudes atkal aizkomentējiet vai dzēsiet.
+ */
+/*
+body {
+    color: red;
+}
+*/
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* "Holy grail" izkārtojums ar CSS Grid:
+   header augšā, nav + main + aside vidū, footer apakšā */
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+    display: grid;
+    grid-template-columns: 200px 1fr 200px;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "header header header"
+        "nav    main   aside"
+        "footer footer footer";
+}
+
+body > header { grid-area: header; }
+body > nav    { grid-area: nav; }
+body > main   { grid-area: main; }
+body > aside  { grid-area: aside; }
+body > footer { grid-area: footer; }
+
+/* Vizuāli atšķiramas zonas */
+body > header,
+body > footer {
+    padding: 1rem;
+    background: #1f2933;
+    color: #fff;
+}
+
+body > header a {
+    color: inherit;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+body > nav,
+body > aside {
+    padding: 1rem;
+    background: #e5e7eb;
+}
+
+body > nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+body > nav li + li {
+    margin-top: .5rem;
+}
+
+body > main {
+    padding: 1rem;
+    min-width: 0; /* neļauj platam saturam (tabulai) izplest grid kolonnu */
+}
+
+body > footer p {
+    margin: 0;
+}
+
+/* Šaurā ekrānā — viena kolonna: header, nav, main, aside, footer */
+@media (max-width: 768px) {
+    body {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr auto auto;
+        grid-template-areas:
+            "header"
+            "nav"
+            "main"
+            "aside"
+            "footer";
+    }
+}
