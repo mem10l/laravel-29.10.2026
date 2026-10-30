@@ -1,5 +1,3 @@
-import './bootstrap';
-
 // Apstiprinājums pirms dzēšanas: formām ar data-confirm atribūtu.
 document.addEventListener('submit', (event) => {
     const message = event.target.dataset?.confirm;
