@@ -1,18 +1,15 @@
 # Products CRUD — uzstādīšana
 
-Faili ir Laravel 11/12 mapju struktūrā. Kopējiet tos savā Laravel projektā (ar to pašu mapju ceļu)
-vai izveidojiet jaunu projektu un tad kopējiet.
+Laravel projekts ar `products` resursu (SQLite, Blade komponentes, Vite).
 
-## 1. Jauns projekts (ja vēl nav)
+## 1. Sagatavošana
 
 ```bash
-composer create-project laravel/laravel shop
-cd shop
+composer install
+npm install
+cp .env.example .env        # ja .env vēl nav
+php artisan key:generate
 ```
-
-Nokopējiet šī arhīva failus projektā (pārrakstiet `routes/web.php`, `resources/css/app.css`, `resources/js/app.js`).
-
-## 2. SQLite
 
 `.env` failā:
 
@@ -20,22 +17,45 @@ Nokopējiet šī arhīva failus projektā (pārrakstiet `routes/web.php`, `resou
 DB_CONNECTION=sqlite
 ```
 
-(rindas `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` var dzēst vai atstāt aizkomentētas.)
+## 2. Datubāze
 
 ```bash
 touch database/database.sqlite
 php artisan migrate
+php artisan db:seed --class=ProductSeeder    # 34 testa produkti
 ```
+
+Sākt no nulles: `php artisan migrate:fresh --seed`
+(`--seed` palaiž `DatabaseSeeder`; pievieno tajā `$this->call(ProductSeeder::class);`)
 
 ## 3. Palaišana (divi termināļi)
 
 ```bash
-php artisan serve     # http://127.0.0.1:8000
-npm install
-npm run dev           # Vite serveris CSS/JS servēšanai
+php artisan serve     # http://127.0.0.1:8000  (/ pārvirza uz /products)
+npm run dev           # Vite serveris CSS un JS servēšanai
 ```
 
-Atveriet http://127.0.0.1:8000 — tas novirza uz `/products`.
+## 4. Testi
+
+```bash
+php artisan test
+```
+
+## Struktūra
+
+| Ceļš | Kas tas ir |
+|---|---|
+| `routes/web.php` | `Route::resource('products', ...)`, `/` → `products.index` |
+| `app/Models/Product.php` | modelis: name, quantity, description, expiration_date, status |
+| `app/Http/Controllers/ProductController.php` | CRUD, route model binding, validācija |
+| `database/migrations/` | `create_products_table` + `update_products_table_attributes` |
+| `database/factories/ProductFactory.php` | produktu katalogs testa datiem |
+| `database/seeders/ProductSeeder.php` | ielādē visu katalogu |
+| `resources/views/components/layout.blade.php` | `<x-layout>` — Holy grail izkārtojums |
+| `resources/views/components/flash-*.blade.php` | paziņojumi: veiksme un validācijas kļūdas |
+| `resources/views/products/` | index, create, edit, show, `_form` |
+| `resources/css/app.css`, `resources/js/app.js` | ielādē Vite |
+| `tests/Feature/ProductControllerTest.php` | kontroliera testi |
 
 ## Maršruti
 
@@ -50,3 +70,24 @@ Atveriet http://127.0.0.1:8000 — tas novirza uz `/products`.
 | GET       | /products/{product}/edit | products.edit     |
 | PUT/PATCH | /products/{product}      | products.update   |
 | DELETE    | /products/{product}      | products.destroy  |
+
+## Biežākās problēmas
+
+| Kļūda | Risinājums |
+|---|---|
+| `Database file ... does not exist` | `touch database/database.sqlite` |
+| `no such table: sessions` | `php artisan make:session-table && php artisan migrate`, vai `.env`: `SESSION_DRIVER=file` |
+| `Nothing to migrate`, bet tabulu nav | migrācijām jābūt `database/migrations/`, nevis saknes `migrations/` |
+| `Class ... Controller not found` | jābūt `app/Http/Controllers/Controller.php` |
+| Vite: `Failed to resolve import "./bootstrap"` | no `resources/js/app.js` jādzēš `import './bootstrap';` |
+| Milzīga bultiņa lappušu numerācijā | `nav[role="navigation"] svg { width: 1.25rem; height: 1.25rem; }` |
+| `intl extension is required` | tikai `db:show --counts`; lietojiet bez `--counts` vai uzstādiet `php-intl` |
+
+## Git
+
+`database/database.sqlite` nedrīkst būt git ar vietējiem datiem:
+
+```bash
+git rm --cached database/database.sqlite
+echo "*.sqlite" >> database/.gitignore
+```
