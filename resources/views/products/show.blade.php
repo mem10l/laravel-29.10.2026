@@ -19,11 +19,14 @@
         <dt>Apraksts</dt>
         <dd>{{ $product->description ?: '—' }}</dd>
 
-        <dt>Cena</dt>
-        <dd>{{ number_format($product->price, 2) }} €</dd>
-
         <dt>Daudzums</dt>
         <dd>{{ $product->quantity }}</dd>
+
+        <dt>Derīguma termiņš</dt>
+        <dd>{{ $product->expiration_date?->format('d.m.Y') ?? '—' }}</dd>
+
+        <dt>Statuss</dt>
+        <dd>{{ \App\Models\Product::STATUSES[$product->status] ?? $product->status }}</dd>
 
         <dt>Izveidots</dt>
         <dd>{{ $product->created_at->format('d.m.Y H:i') }}</dd>

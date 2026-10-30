@@ -6,18 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    public const STATUSES = [
+        'active' => 'Aktīvs',
+        'inactive' => 'Neaktīvs',
+    ];
+
     protected $fillable = [
         'name',
-        'description',
-        'price',
         'quantity',
+        'description',
+        'expiration_date',
+        'status',
     ];
 
     protected function casts(): array
     {
         return [
-            'price' => 'decimal:2',
             'quantity' => 'integer',
+            'expiration_date' => 'date',
         ];
     }
 }

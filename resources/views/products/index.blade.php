@@ -12,8 +12,9 @@
                 <tr>
                     <th>#</th>
                     <th>Nosaukums</th>
-                    <th class="num">Cena</th>
                     <th class="num">Daudzums</th>
+                    <th>Derīguma termiņš</th>
+                    <th>Statuss</th>
                     <th>Darbības</th>
                 </tr>
             </thead>
@@ -22,8 +23,9 @@
                     <tr>
                         <td>{{ $product->id }}</td>
                         <td><a href="{{ route('products.show', $product) }}">{{ $product->name }}</a></td>
-                        <td class="num">{{ number_format($product->price, 2) }} €</td>
                         <td class="num">{{ $product->quantity }}</td>
+                        <td>{{ $product->expiration_date?->format('d.m.Y') ?? '—' }}</td>
+                        <td>{{ \App\Models\Product::STATUSES[$product->status] ?? $product->status }}</td>
                         <td class="row-actions">
                             <a href="{{ route('products.show', $product) }}" class="btn btn-sm">Skatīt</a>
                             <a href="{{ route('products.edit', $product) }}" class="btn btn-sm">Rediģēt</a>
