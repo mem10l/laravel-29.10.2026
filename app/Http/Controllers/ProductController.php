@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
-class ProductController
+class ProductController extends Controller
 {
     /**
      * Produktu saraksts.
