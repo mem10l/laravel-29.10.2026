@@ -88,6 +88,28 @@ body > footer p {
     margin: 0;
 }
 
+/* Flash paziņojumi (komponentes flash-success un flash-errors) */
+.flash {
+    margin: 0 0 1rem;
+    padding: .75rem 1rem;
+    border-radius: 6px;
+}
+
+.flash ul {
+    margin: .25rem 0 0;
+    padding-left: 1.25rem;
+}
+
+.flash-success {
+    background: #e7f6ec;
+    color: #166534;
+}
+
+.flash-error {
+    background: #fdecec;
+    color: #991b1b;
+}
+
 /* Šaurā ekrānā — viena kolonna: header, nav, main, aside, footer */
 @media (max-width: 768px) {
     body {

@@ -23,20 +23,8 @@
     </nav>
 
     <main>
-        @if (session('success'))
-            <p role="status">{{ session('success') }}</p>
-        @endif
-
-        @if ($errors->any())
-            <div role="alert">
-                <strong>Lūdzu, izlabojiet kļūdas:</strong>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        <x-flash-success />
+        <x-flash-errors />
 
         {{ $slot }}
     </main>
