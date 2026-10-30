@@ -101,3 +101,8 @@ body > footer p {
             "footer";
     }
 }
+
+nav[role="navigation"] svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
