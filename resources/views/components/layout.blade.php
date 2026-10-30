@@ -12,7 +12,7 @@
 </head>
 <body>
     <header>
-        <a href="{{ route('home') }}">{{ config('app.name') }}</a>
+        <a href="{{ route('home') }}" class="logo">LOGO — testa logo teksts</a>
     </header>
 
     <nav aria-label="Galvenā navigācija">
@@ -45,13 +45,13 @@
         @isset($aside)
             {{ $aside }}
         @else
-            <h2>Informācija</h2>
-            <p>Produktu pārvaldība: skatīt, pievienot, rediģēt un dzēst.</p>
+            <h2>Reklāma</h2>
+            <p>Testa reklāmas teksts: pasūtiet tagad ar 20% atlaidi!</p>
         @endisset
     </aside>
 
     <footer>
-        <p>&copy; {{ date('Y') }} {{ config('app.name') }}</p>
+        <p>&copy; {{ date('Y') }} Testa copyright teksts. Visas tiesības aizsargātas.</p>
     </footer>
 </body>
 </html>
